@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Python in Browser</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        textarea { width: 80%; height: 200px; font-size: 14px; }
+        button { margin-top: 10px; padding: 10px 15px; font-size: 16px; }
+        pre { background: #f4f4f4; padding: 10px; white-space: pre-wrap; text-align: left; width: 80%; margin: 10px auto; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Run Python Code in Your Browser</h1>
+    <p>Type your Python code below and click "Run".</p>
+
+    <textarea id="pythonCode">print("Hello, World!")</textarea><br>
+    <button onclick="runPython()">Run</button>
+
+    <h2>Output:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        async function runPython() {
+            let outputElement = document.getElementById("output");
+            outputElement.textContent = "Running...";
+            try {
+                let pyodide = await loadPyodide();
+                let code = document.getElementById("pythonCode").value;
+                let result = pyodide.runPython(code);
+                outputElement.textContent = result;
+            } catch (error) {
+                outputElement.textContent = "Error: " + error;
+            }
+        }
+    </script>
+</body>
+</html>
