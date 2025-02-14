@@ -3,33 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Run Python in Browser</title>
+    <title>Run Pre-Written Python Scripts</title>
     <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-        textarea { width: 80%; height: 200px; font-size: 14px; }
         button { margin-top: 10px; padding: 10px 15px; font-size: 16px; }
         pre { background: #f4f4f4; padding: 10px; white-space: pre-wrap; text-align: left; width: 80%; margin: 10px auto; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <h1>Run Python Code in Your Browser</h1>
-    <p>Type your Python code below and click "Run".</p>
-
-    <textarea id="pythonCode">print("Hello, World!")</textarea><br>
-    <button onclick="runPython()">Run</button>
+    <h1>Run My Python Programs</h1>
+    
+    <p>Select a script to run:</p>
+    <select id="scriptSelector">
+        <option value="stockscreener.py">Stock Screener</option>
+        <option value="magicformula.py">Magic Formula Analyzer</option>
+        <option value="hello.py">Hello World Test</option>
+    </select>
+    <br>
+    <button onclick="runPythonScript()">Run Selected Script</button>
 
     <h2>Output:</h2>
     <pre id="output"></pre>
 
     <script>
-        async function runPython() {
+        async function runPythonScript() {
             let outputElement = document.getElementById("output");
-            outputElement.textContent = "Running...";
+            let scriptName = document.getElementById("scriptSelector").value;
+            outputElement.textContent = "Loading script...";
+
             try {
+                let response = await fetch(scriptName);
+                let scriptContent = await response.text();
+
                 let pyodide = await loadPyodide();
-                let code = document.getElementById("pythonCode").value;
-                let result = pyodide.runPython(code);
+                
+                // Redirect Python print output to JavaScript console
+                pyodide.runPython(`
+                    import sys
+                    from io import StringIO
+                    sys.stdout = sys.stderr = StringIO()
+                `);
+                
+                // Run the script
+                pyodide.runPython(scriptContent);
+                
+                // Capture the output
+                let result = pyodide.runPython("sys.stdout.getvalue()");
                 outputElement.textContent = result;
             } catch (error) {
                 outputElement.textContent = "Error: " + error;
