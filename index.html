@@ -3,42 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Run Pre-Written Python Scripts</title>
+    <title>Run My Python Scripts</title>
     <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-        button { margin-top: 10px; padding: 10px 15px; font-size: 16px; }
-        pre { background: #f4f4f4; padding: 10px; white-space: pre-wrap; text-align: left; width: 80%; margin: 10px auto; border-radius: 5px; }
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            min-height: 100vh; 
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            background: #222;
+            color: white;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        .sidebar h2 {
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .sidebar ul li:hover {
+            background: #444;
+        }
+
+        .sidebar ul li.active {
+            background: #007bff;
+        }
+
+        /* Main content area */
+        .main-content {
+            flex-grow: 1;
+            margin-left: 270px; /* Space for sidebar */
+            padding: 20px;
+            text-align: center;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            white-space: pre-wrap;
+            text-align: left;
+            width: 80%;
+            margin: 20px auto;
+            border-radius: 5px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
-    <h1>Run My Python Programs</h1>
-    
-    <p>Select a script to run:</p>
-    <select id="scriptSelector">
-        <option value="stockscreener.py">Stock Screener</option>
-        <option value="magicformula.py">Magic Formula Analyzer</option>
-        <option value="hello.py">Hello World Test</option>
-    </select>
-    <br>
-    <button onclick="runPythonScript()">Run Selected Script</button>
 
-    <h2>Output:</h2>
-    <pre id="output"></pre>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Python Scripts</h2>
+        <ul>
+            <li class="script-option" data-script="stockscreener.py">Stock Screener</li>
+            <li class="script-option" data-script="magicformula.py">Magic Formula Analyzer</li>
+            <li class="script-option" data-script="hello.py">Hello World Test</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Run My Python Scripts</h1>
+        
+        <button onclick="runPythonScript()">Run Selected Script</button>
+
+        <h2>Output:</h2>
+        <pre id="output">Select a script and click "Run".</pre>
+    </div>
 
     <script>
+        let selectedScript = "";
+
+        // Add event listener to each script in the sidebar
+        document.querySelectorAll(".script-option").forEach(item => {
+            item.addEventListener("click", function() {
+                document.querySelectorAll(".script-option").forEach(el => el.classList.remove("active"));
+                this.classList.add("active");
+                selectedScript = this.getAttribute("data-script");
+            });
+        });
+
         async function runPythonScript() {
             let outputElement = document.getElementById("output");
-            let scriptName = document.getElementById("scriptSelector").value;
+            
+            if (!selectedScript) {
+                outputElement.textContent = "Please select a script first!";
+                return;
+            }
+
             outputElement.textContent = "Loading script...";
 
             try {
-                let response = await fetch(scriptName);
+                let response = await fetch(selectedScript);
                 let scriptContent = await response.text();
 
                 let pyodide = await loadPyodide();
                 
-                // Redirect Python print output to JavaScript console
+                // Redirect Python print output to JavaScript
                 pyodide.runPython(`
                     import sys
                     from io import StringIO
@@ -56,5 +156,6 @@
             }
         }
     </script>
+
 </body>
 </html>
