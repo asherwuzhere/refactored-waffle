@@ -111,48 +111,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>Python Scripts</h2>
-        
-        <!-- Game Bots -->
-        <div class="group-title" onclick="toggleGroup('game-bots')">🎮 Game Bots</div>
-        <ul id="game-bots" class="script-list">
-            <li class="script-option" data-script="chessbot.py">Chess Bot</li>
-            <li class="script-option" data-script="tictactoebot.py">Tic-Tac-Toe Bot</li>
-        </ul>
-
-        <!-- YFinance -->
-        <div class="group-title" onclick="toggleGroup('yfinance')">📊 YFinance</div>
-        <ul id="yfinance" class="script-list">
-            <li class="script-option" data-script="stockscreener.py">Stock Screener</li>
-            <li class="script-option" data-script="magicformula.py">Magic Formula Analyzer</li>
-        </ul>
-
-        <!-- AI -->
-        <div class="group-title" onclick="toggleGroup('ai')">🤖 AI</div>
-        <ul id="ai" class="script-list">
-            <li class="script-option" data-script="chatbot.py">Chatbot Assistant</li>
-            <li class="script-option" data-script="nlp_analyzer.py">NLP Sentiment Analyzer</li>
-        </ul>
-
-        <!-- Converters -->
-        <div class="group-title" onclick="toggleGroup('converters')">🔄 Converters</div>
-        <ul id="converters" class="script-list">
-            <li class="script-option" data-script="unitconverter.py">Unit Converter</li>
-            <li class="script-option" data-script="currencyconverter.py">Currency Converter</li>
-        </ul>
-
-        <!-- Games -->
-        <div class="group-title" onclick="toggleGroup('games')">🎲 Games</div>
-        <ul id="games" class="script-list">
-            <li class="script-option" data-script="snake.py">Snake Game</li>
-            <li class="script-option" data-script="hangman.py">Hangman</li>
-        </ul>
-
-        <!-- Misc -->
-        <div class="group-title" onclick="toggleGroup('misc')">🛠️ Misc</div>
-        <ul id="misc" class="script-list">
-            <li class="script-option" data-script="hello.py">Hello World Test</li>
-            <li class="script-option" data-script="randomizer.py">Random Number Generator</li>
-        </ul>
+        <!-- Sidebar content will be populated by scripts.js -->
     </div>
 
     <!-- Main Content -->
@@ -165,62 +124,7 @@
         <pre id="output">Select a script and click "Run".</pre>
     </div>
 
-    <script>
-        let selectedScript = "";
-
-        // Function to toggle group visibility
-        function toggleGroup(groupId) {
-            let group = document.getElementById(groupId);
-            if (group.style.display === "none" || group.style.display === "") {
-                group.style.display = "block";  // Show the scripts under this group
-            } else {
-                group.style.display = "none";  // Hide them
-            }
-        }
-
-        // Add event listener to each script in the sidebar
-        document.querySelectorAll(".script-option").forEach(item => {
-            item.addEventListener("click", function() {
-                document.querySelectorAll(".script-option").forEach(el => el.classList.remove("active"));
-                this.classList.add("active");
-                selectedScript = this.getAttribute("data-script");
-            });
-        });
-
-        async function runPythonScript() {
-            let outputElement = document.getElementById("output");
-            
-            if (!selectedScript) {
-                outputElement.textContent = "Please select a script first!";
-                return;
-            }
-
-            outputElement.textContent = "Loading script...";
-
-            try {
-                let response = await fetch(selectedScript);
-                let scriptContent = await response.text();
-
-                let pyodide = await loadPyodide();
-                
-                // Redirect Python print output to JavaScript
-                pyodide.runPython(`
-                    import sys
-                    from io import StringIO
-                    sys.stdout = sys.stderr = StringIO()
-                `);
-                
-                // Run the script
-                pyodide.runPython(scriptContent);
-                
-                // Capture the output
-                let result = pyodide.runPython("sys.stdout.getvalue()");
-                outputElement.textContent = result;
-            } catch (error) {
-                outputElement.textContent = "Error: " + error;
-            }
-        }
-    </script>
-
+    <!-- Link to the external JavaScript file -->
+    <script src="scripts.js"></script>
 </body>
 </html>
