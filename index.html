@@ -23,19 +23,37 @@
             position: fixed;
             left: 0;
             top: 0;
+            overflow-y: auto;
         }
 
         .sidebar h2 {
-            font-size: 22px;
+            font-size: 20px;
             text-align: center;
+            margin-bottom: 10px;
         }
 
-        .sidebar ul {
+        .group-title {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #444;
+            background: #333;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .group-title:hover {
+            background: #444;
+        }
+
+        .script-list {
             list-style-type: none;
             padding: 0;
+            display: none; /* Hidden by default */
         }
 
-        .sidebar ul li {
+        .script-list li {
             padding: 10px;
             cursor: pointer;
             border-radius: 5px;
@@ -43,11 +61,11 @@
             text-align: center;
         }
 
-        .sidebar ul li:hover {
+        .script-list li:hover {
             background: #444;
         }
 
-        .sidebar ul li.active {
+        .script-list li.active {
             background: #007bff;
         }
 
@@ -93,10 +111,47 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>Python Scripts</h2>
-        <ul>
+        
+        <!-- Game Bots -->
+        <div class="group-title" onclick="toggleGroup('game-bots')">🎮 Game Bots</div>
+        <ul id="game-bots" class="script-list">
+            <li class="script-option" data-script="chessbot.py">Chess Bot</li>
+            <li class="script-option" data-script="tictactoebot.py">Tic-Tac-Toe Bot</li>
+        </ul>
+
+        <!-- YFinance -->
+        <div class="group-title" onclick="toggleGroup('yfinance')">📊 YFinance</div>
+        <ul id="yfinance" class="script-list">
             <li class="script-option" data-script="stockscreener.py">Stock Screener</li>
             <li class="script-option" data-script="magicformula.py">Magic Formula Analyzer</li>
+        </ul>
+
+        <!-- AI -->
+        <div class="group-title" onclick="toggleGroup('ai')">🤖 AI</div>
+        <ul id="ai" class="script-list">
+            <li class="script-option" data-script="chatbot.py">Chatbot Assistant</li>
+            <li class="script-option" data-script="nlp_analyzer.py">NLP Sentiment Analyzer</li>
+        </ul>
+
+        <!-- Converters -->
+        <div class="group-title" onclick="toggleGroup('converters')">🔄 Converters</div>
+        <ul id="converters" class="script-list">
+            <li class="script-option" data-script="unitconverter.py">Unit Converter</li>
+            <li class="script-option" data-script="currencyconverter.py">Currency Converter</li>
+        </ul>
+
+        <!-- Games -->
+        <div class="group-title" onclick="toggleGroup('games')">🎲 Games</div>
+        <ul id="games" class="script-list">
+            <li class="script-option" data-script="snake.py">Snake Game</li>
+            <li class="script-option" data-script="hangman.py">Hangman</li>
+        </ul>
+
+        <!-- Misc -->
+        <div class="group-title" onclick="toggleGroup('misc')">🛠️ Misc</div>
+        <ul id="misc" class="script-list">
             <li class="script-option" data-script="hello.py">Hello World Test</li>
+            <li class="script-option" data-script="randomizer.py">Random Number Generator</li>
         </ul>
     </div>
 
@@ -112,6 +167,16 @@
 
     <script>
         let selectedScript = "";
+
+        // Function to toggle group visibility
+        function toggleGroup(groupId) {
+            let group = document.getElementById(groupId);
+            if (group.style.display === "none" || group.style.display === "") {
+                group.style.display = "block";  // Show the scripts under this group
+            } else {
+                group.style.display = "none";  // Hide them
+            }
+        }
 
         // Add event listener to each script in the sidebar
         document.querySelectorAll(".script-option").forEach(item => {
