@@ -1,0 +1,59 @@
+{
+    "Ai": [
+        "Ai/ai_trainer_stock_market_data.py",
+        "Ai/new_stock_data_ai.py"
+    ],
+    "Bot": [
+        "Bot/blackjack_bot.py",
+        "Bot/blackjack_bot_strat.py",
+        "Bot/connect4_bot.py",
+        "Bot/file_sorter_bot.py",
+        "Bot/poker_bot.py",
+        "Bot/tic_tac_toe_bot.py",
+        "Bot/wordle_bot_dynamic_points.py",
+        "Bot/wordle_bot_static_points.py"
+    ],
+    "Ollama": [
+        "Ollama/ollama_chat_advanced.py",
+        "Ollama/ollama_chat_basic.py",
+        "Ollama/ollama_chat_codellama.py",
+        "Ollama/ollama_num_guessr.py",
+        "Ollama/ollama_test.py"
+    ],
+    "Other": [
+        "Other/AlphaVantage.py",
+        "Other/ccxt_test_avg_moving.py",
+        "Other/coinmktcapapi_long_term.py",
+        "Other/get-pip.py",
+        "Other/idk.py",
+        "Other/large_exponent_calc.py",
+        "Other/loading_screen.py",
+        "Other/num_guessing_game.py",
+        "Other/objects_in_motion.py",
+        "Other/password maker 2 theo.py",
+        "Other/pwd_strength_checker.py",
+        "Other/roman_numeral.py",
+        "Other/s&p_tickers.py",
+        "Other/simple_games.py",
+        "Other/stockgrader2.0.py",
+        "Other/test.py",
+        "Other/theo_code.py",
+        "Other/weather_checker_(fake).py",
+        "Other/weather_checker_(real).py"
+    ],
+    "Yfinance": [
+        "Yfinance/f-score-yfinance.py",
+        "Yfinance/GPT_yfinance_coder_testing.py",
+        "Yfinance/yfinance1.0.py",
+        "Yfinance/yfinance_combined_fs_and_mf.py",
+        "Yfinance/yfinance_fixed_assets_magic_formula.py",
+        "Yfinance/yfinance_fscore_growth.py",
+        "Yfinance/yfinance_full_fscore.py",
+        "Yfinance/yfinance_full_magic_formula.py",
+        "Yfinance/yfinance_input_fscore.py",
+        "Yfinance/yfinance_input_magic_formula.py",
+        "Yfinance/yfinance_og_fscore.py",
+        "Yfinance/yfinance_og_magic_formula.py",
+        "Yfinance/yfinance_test.py"
+    ]
+}
